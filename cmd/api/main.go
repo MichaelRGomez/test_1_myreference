@@ -10,6 +10,7 @@ import (
 
 	_ "github.com/lib/pq"
 	"michael.gomez.net/internal/data"
+	"michael.gomez.net/internal/jsonlog"
 )
 
 // Version number
@@ -79,7 +80,7 @@ func main() {
 		logger: logger,
 		models: data.NewModels(db),
 	}
-	err = app.server() //starting the server
+	err = app.serve() //starting the server
 	if err != nil {
 		logger.PrintFatal(err, nil)
 	}
