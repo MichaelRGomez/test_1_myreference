@@ -7,6 +7,8 @@ import (
 	"flag"
 	"os"
 	"time"
+
+	_ "github.com/lib/pq"
 )
 
 // Version number
