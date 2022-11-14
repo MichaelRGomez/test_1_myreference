@@ -36,7 +36,7 @@ type config struct {
 // dependency injection
 type application struct {
 	config config
-	logger *jsonlog.logger
+	logger *jsonlog.Logger
 	models data.Models
 }
 

@@ -52,19 +52,19 @@ func New(out io.Writer, minLevel Level) *Logger {
 
 // Helper Methods
 func (l *Logger) PrintInfo(message string, properties map[string]string) {
-	l.print(LevelInfo, message, properties)
+	l.Print(LevelInfo, message, properties)
 }
 
 func (l *Logger) PrintError(err error, properties map[string]string) {
-	l.print(LevelError, err.Error(), properties)
+	l.Print(LevelError, err.Error(), properties)
 }
 
 func (l *Logger) PrintFatal(err error, properties map[string]string) {
-	l.print(LevelFatal, err.Error(), properties)
+	l.Print(LevelFatal, err.Error(), properties)
 	os.Exit(1)
 }
 
-func (l *Logger) print(level Level, message string, properties map[string]string) (int, error) {
+func (l *Logger) Print(level Level, message string, properties map[string]string) (int, error) {
 	//Ensure serverity level is at least minimal
 	if level < l.minLevel {
 		return 0, nil
@@ -103,6 +103,6 @@ func (l *Logger) print(level Level, message string, properties map[string]string
 }
 
 // Implementing the io.write interface
-func (l *Logger) write(message []byte) (n int, err error) {
-	return l.print(LevelError, string(message), nil)
+func (l *Logger) Write(message []byte) (n int, err error) {
+	return l.Print(LevelError, string(message), nil)
 }
