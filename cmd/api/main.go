@@ -9,6 +9,7 @@ import (
 	"time"
 
 	_ "github.com/lib/pq"
+	"michael.gomez.net/internal/data"
 )
 
 // Version number
