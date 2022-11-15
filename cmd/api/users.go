@@ -28,6 +28,12 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 		Activated: false,
 	}
 
+	err = user.Password.Set(input.Password)
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+		return
+	}
+
 	//validating
 	v := validator.New()
 	if data.ValidateUser(v, user); !v.Valid() {
