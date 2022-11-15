@@ -5,6 +5,7 @@ import (
 	"errors"
 	"net/http"
 
+	"michael.gomez.net/internal/data"
 	"michael.gomez.net/internal/validator"
 )
 
@@ -21,9 +22,15 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
+	user := &data.User{
+		Name:      input.Name,
+		Email:     input.Email,
+		Activated: false,
+	}
+
 	//validating
 	v := validator.New()
-	if data.ValidatorUser(v, user); !v.Valid() {
+	if data.ValidateUser(v, user); !v.Valid() {
 		app.failedValidationResponse(w, r, v.Errors)
 		return
 	}
