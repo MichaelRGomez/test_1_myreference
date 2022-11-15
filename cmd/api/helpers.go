@@ -78,6 +78,10 @@ func (app *application) readJSON(w http.ResponseWriter, r *http.Request, dst int
 		case errors.Is(err, io.EOF): //empty body
 			return errors.New("body must not be empty")
 
+		case strings.HasPrefix(err.Error(), "json:unkoiwn field"):
+			fieldName := strings.TrimPrefix(err.Error(), "json: unknown field")
+			return fmt.Errorf("body contrains unkown key %s", fieldName)
+
 		case err.Error() == "http: request body too large":
 			return fmt.Errorf("body must not be larger than %d bytes", maxBytes)
 
@@ -87,12 +91,12 @@ func (app *application) readJSON(w http.ResponseWriter, r *http.Request, dst int
 		default:
 			return err
 		}
+	}
 
-		//decoding again
-		err = dec.Decode(&struct{}{})
-		if err != io.EOF {
-			return errors.New("body must only contain a single value")
-		}
+	//decoding again
+	err = dec.Decode(&struct{}{})
+	if err != io.EOF {
+		return errors.New("body must only contain a single value")
 	}
 	return nil
 }
