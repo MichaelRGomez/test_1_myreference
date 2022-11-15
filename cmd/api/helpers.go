@@ -29,6 +29,22 @@ func (app *application) readIDParam(r *http.Request) (int64, error) {
 	return id, nil
 }
 
+// write JSON function
+func (app *application) writeJSON(w http.ResponseWriter, status int, data envelope, headers http.Header) error {
+	js, err := json.MarshalIndent(data, "", "\t")
+	if err != nil {
+		return err
+	}
+	js = append(js, '\n')
+	for key, value := range headers {
+		w.Header()[key] = value
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(status)
+	w.Write(js)
+	return nil
+}
+
 // reading the json
 func (app *application) readJSON(w http.ResponseWriter, r *http.Request, dst interface{}) error {
 	//limiting the size of the request body to 1MB
