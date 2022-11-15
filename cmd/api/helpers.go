@@ -12,6 +12,7 @@ import (
 	"strings"
 
 	"github.com/julienschmidt/httprouter"
+	"michael.gomez.net/internal/validator"
 )
 
 // defining envelope type
